@@ -1,4 +1,4 @@
-import sys
+import sys,os
 sys.path.extend(['/Users/dengjq/Documents/01-dev/github/flask-blog/venv/lib/python3.7/site-packages/'])
 
 from flask import Flask, render_template
@@ -34,3 +34,8 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     return app
+
+
+if __name__ == '__main__':
+    app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+    app.run()
