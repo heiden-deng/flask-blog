@@ -27,7 +27,7 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@auth.route('/register')
+@auth.route('/register', methods=['GET','POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -58,7 +58,7 @@ def confirm(token):
 
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated() \
+    if current_user.is_authenticated \
             and not current_user.confirmed \
             and request.endpoint[:5] != 'auth.' \
             and request.endpoint != 'static':
@@ -67,7 +67,7 @@ def before_request():
 
 @auth.route('/unconfirmed')
 def unconfirmed():
-    if current_user.is_annoymous() or current_user.confirmed:
+    if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
 
@@ -75,7 +75,7 @@ def unconfirmed():
 @auth.route('/confirm')
 @login_required
 def resend_confirmation():
-    token = current_user.generation_confirmation_token()
+    token = current_user.generate_confirmation_token()
     send_email(current_user.email,'Confirm Your Account',
                'auth/email/confirm', user=current_user,token=token)
     flash('A new confirmation email has been sent to you by email')
