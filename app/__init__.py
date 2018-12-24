@@ -24,6 +24,7 @@ def create_app(config_name):
     print("config name: %s" % config_name)
     app.config.from_object(config[config_name])
 
+
     print(app.config)
     config[config_name].init_app(app)
     bootstrap.init_app(app)
@@ -40,6 +41,6 @@ def create_app(config_name):
     return app
 
 
-if __name__ == '__main__':
-    app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-    app.run()
+#if __name__ == '__main__':
+#    app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+#    app.run()
